@@ -2,11 +2,11 @@
   "name": "gestion-clinica-node",
   "version": "1.0.0",
   "description": "Plataforma de Gestión Clínica",
-  "main": "server.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
