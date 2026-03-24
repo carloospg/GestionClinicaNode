@@ -19,6 +19,29 @@ class AuthService {
     
         return usuario;
     }
+
+    async registrarUsuario(nombre, email, password, rol) {
+        const existe = await Usuario.findOne({
+            where: {
+                email
+            }
+        })
+
+        if (existe) {
+            throw new Error('Ya existe un usuario con ese correo')
+        }
+
+        const hash = await bcrypt.hash(password, 10);
+
+        const usuario = await Usuario.create({
+            nombre,
+            email,
+            password: hash,
+            rol
+        })
+
+        return usuario;
+    }
 }
 
 export default AuthService;

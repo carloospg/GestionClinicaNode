@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sessionStorage.setItem("token", data.token);
       sessionStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-      window.location.href = "perfil.html";
+      window.location.href = "../perfil.html";
     } catch (err) {
       errorMsg.textContent = "Error al conectar con el servidor";
       errorMsg.classList.remove("d-none");
