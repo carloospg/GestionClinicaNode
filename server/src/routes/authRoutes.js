@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import controlador from '../controllers/authController.js';
+import { verificarToken } from '../middlewares/authMiddleware.js';
+import { verificarRol } from '../middlewares/rolesMiddleware.js';
 
 export const router = Router();
 
 router.post('/login', controlador.login);
+router.post('/registro', verificarToken, verificarRol('admin'), controlador.registrar);
