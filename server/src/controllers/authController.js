@@ -17,7 +17,7 @@ const controlador = {
           rol: usuario.rol,
         },
         process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
+        { expiresIn: process.env.JWT_EXPIRES_IN },
       );
 
       res.status(200).json({
@@ -30,12 +30,47 @@ const controlador = {
           rol: usuario.rol,
         },
       });
-
     } catch (err) {
       res.status(401).json({ ok: false, msg: err.message });
     }
   },
 
+  registrar: async (req = request, res = response) => {
+    try {
+      const { nombre, email, password, rol } = req.body;
+
+      if (rol === "admin") {
+        return res.status(403).json({
+          ok: false,
+          msg: "No se puede crear un usuario admin",
+        });
+      }
+
+      const service = new AuthService();
+      const usuario = await service.registrarUsuario(
+        nombre,
+        email,
+        password,
+        rol,
+      );
+
+      res.status(201).json({
+        ok: true,
+        msg: "Usuario creado correctamente",
+        usuario: {
+          id: usuario.id,
+          nombre: usuario.nombre,
+          email: usuario.email,
+          rol: usuario.rol,
+        },
+      });
+    } catch (err) {
+      res.status(400).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
 };
 
 export default controlador;
