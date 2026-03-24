@@ -5,13 +5,14 @@ dotenv.config();
 import db from './config/database.js';
 import connectMongo from './config/mongodb.js';
 import './models/associations.js';
+import adminSeeder from './seeders/adminSeeder.js';
+import { router as authRoutes } from './routes/authRoutes.js';
 
 class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT || 3000;
 
-        //Conectar a las bases de datos
         this.conectarPostgres();
         this.conectarMongo();
 
@@ -24,6 +25,8 @@ class Server {
         await db.sync({
             alter: false
         })
+        console.log('Modelos SQL sincronizados con Postgres');
+        await adminSeeder();
     }
 
     conectarMongo(){
@@ -36,7 +39,7 @@ class Server {
     }
 
     routes() {
-        // Las pondre mas adelante
+        this.app.use('/api/auth', authRoutes);
     }
 
     listen() {
