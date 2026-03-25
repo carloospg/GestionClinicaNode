@@ -3,8 +3,12 @@ const API_URL = 'http://localhost:3000/api';
 const token = sessionStorage.getItem('token');
 const usuario = JSON.parse(sessionStorage.getItem('usuario'));
 
-if (!token || !usuario || usuario.rol !== 'admin') {
-  window.location.href = '../pages/login.html';
+if (!token || !usuario) {
+  window.location.href = 'login.html';
+}
+
+if (usuario.rol !== 'admin') {
+  window.location.href = 'index.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('btn-volver').addEventListener('click', () => {
-    window.location.href = '../perfil.html';
+    window.location.href = 'usuarios.html';
   });
 
   form.addEventListener('submit', async (e) => {

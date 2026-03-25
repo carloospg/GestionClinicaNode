@@ -14,11 +14,7 @@
     />
   </head>
   <body class="bg-light">
-    <nav class="navbar navbar-dark bg-primary">
-      <div class="container">
-        <span class="navbar-brand">Gestion Clinica</span>
-      </div>
-    </nav>
+    <div id="navbar-container"></div>
 
     <div class="container mt-4">
       <div class="row justify-content-center">
@@ -42,14 +38,9 @@
                 <p id="perfil-rol" class="fs-5"></p>
               </div>
 
-              <div class="d-flex justify-content-between mt-2">
-                <button id="btn-logout" class="btn btn-danger">
-                  Cerrar sesion
-                </button>
-                <button id="btn-registro" class="btn btn-primary d-none">
-                  Registrar usuario
-                </button>
-              </div>
+              <button id="btn-logout" class="btn btn-danger w-100 mt-2">
+                Cerrar sesion
+              </button>
             </div>
           </div>
         </div>
@@ -57,6 +48,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/perfil.js"></script>
+    <script type="module" src="../js/perfil.js"></script>
   </body>
 </html>
