@@ -49,6 +49,16 @@ class AuthService {
         });
         return usuarios;
     }
+
+    async eliminarUsuario(id) {
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario) {
+            throw new Error('Usuario no encontrado')
+        }
+
+        await usuario.destroy();
+        return usuario;
+    }
 }
 
 export default AuthService;
