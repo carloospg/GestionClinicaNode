@@ -1,6 +1,6 @@
-import { response, request } from 'express';
-import jwt from 'jsonwebtoken';
-import AuthService from '../services/authService.js';
+import { response, request } from "express";
+import jwt from "jsonwebtoken";
+import AuthService from "../services/authService.js";
 
 const controlador = {
   login: async (req = request, res = response) => {
@@ -66,6 +66,23 @@ const controlador = {
       });
     } catch (err) {
       res.status(400).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
+
+  listar: async (req = request, res = response) => {
+    try {
+      const service = new AuthService();
+      const usuarios = await service.listarUsuarios();
+
+      res.status(200).json({
+        ok: true,
+        usuarios,
+      });
+    } catch (err) {
+      res.status(500).json({
         ok: false,
         msg: err.message,
       });
