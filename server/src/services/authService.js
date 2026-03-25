@@ -42,6 +42,13 @@ class AuthService {
 
         return usuario;
     }
+
+    async listarUsuarios() {
+        const usuarios = await Usuario.findAll({
+            attributes: ['id', 'nombre', 'email', 'rol'],
+        });
+        return usuarios;
+    }
 }
 
 export default AuthService;
