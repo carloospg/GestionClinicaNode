@@ -88,6 +88,30 @@ const controlador = {
       });
     }
   },
+
+  eliminar: async (req = request, res = response) => {
+    try {
+      const { id } = req.params;
+      const service = new AuthService();
+      const usuario = await service.eliminarUsuario(id);
+
+      res.status(200).json({
+        ok: true,
+        msg: "Usuario eliminado correctamente",
+        usuario: {
+          id: usuario.id,
+          nombre: usuario.nombre,
+          email: usuario.email,
+          rol: usuario.rol,
+        },
+      });
+    } catch (err) {
+      res.status(400).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
 };
 
 export default controlador;
