@@ -46,6 +46,7 @@ class AuthService {
     async listarUsuarios() {
         const usuarios = await Usuario.findAll({
             attributes: ['id', 'nombre', 'email', 'rol'],
+            order: [['id', 'ASC']],
         });
         return usuarios;
     }
