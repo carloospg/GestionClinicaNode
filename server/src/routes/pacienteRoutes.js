@@ -5,4 +5,5 @@ import { verificarToken } from "../middlewares/authMiddleware.js";
 
 export const router = Router();
 
-router.post('/', verificarToken, verificarRol('admin', 'recepcionista'), controlador.crear)
+router.post('/', verificarToken, verificarRol('admin', 'recepcionista'), controlador.crear);
+router.get('/', verificarToken, controlador.listar);
