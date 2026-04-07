@@ -2,6 +2,7 @@ import Usuario from "../models/Usuario.js";
 import bcrypt from "bcryptjs";
 import { faker } from "@faker-js/faker/locale/es";
 import Paciente from "../models/Paciente.js";
+import Cita from "../models/Cita.js";
 
 const adminSeeder = async () => {
   try {
@@ -72,15 +73,48 @@ const adminSeeder = async () => {
       for (let i = 0; i < 5; i++) {
         await Paciente.create({
           nombre: faker.person.firstName(),
-          apellidos: faker.person.lastName() + ' ' + faker.person.lastName(),
+          apellidos: faker.person.lastName() + " " + faker.person.lastName(),
           dni: faker.string.alphanumeric(9).toUpperCase(),
           telefono: faker.phone.number(),
-          fecha_nacimiento: faker.date.birthdate({ min: 18, max: 80, mode: 'age' }),
+          fecha_nacimiento: faker.date.birthdate({
+            min: 18,
+            max: 80,
+            mode: "age",
+          }),
         });
       }
-      console.log('5 pacientes creados correctamente')
+      console.log("5 pacientes creados correctamente");
     } else {
-      console.log('Ya existen pacientes')
+      console.log("Ya existen pacientes");
+    }
+
+    const citas = await Cita.findAll();
+
+    if (citas.length === 0) {
+      const medicos = await Usuario.findAll({
+        where: {
+          rol: "medico",
+        },
+      });
+      const pacientes = await Paciente.findAll();
+
+      for (let i = 0; i < 5; i++) {
+        const medicoAleatorio =
+          medicos[Math.floor(Math.random() * medicos.length)];
+        const pacienteAleatorio =
+          pacientes[Math.floor(Math.random() * pacientes.length)];
+
+        await Cita.create({
+          id_paciente: pacienteAleatorio.id,
+          id_medico: medicoAleatorio.id,
+          fecha_hora: faker.date.soon({ days: 30 }),
+          motivo: faker.lorem.sentence(),
+          estado: "pendiente",
+        });
+      }
+      console.log("Citas creadas correctamente");
+    } else {
+      console.log("Ya existen citas");
     }
   } catch (err) {
     console.error("Error en el seeder: ", err);
