@@ -42,6 +42,26 @@ const controlador = {
       });
     }
   },
+
+  cancelar: async (req = request, res = response) => {
+    try {
+      const { id } = req.params;
+
+      const service = new CitaService();
+      const cita = await service.cancelarCita(id);
+
+      res.status(200).json({
+        ok: true,
+        msg: "Cita cancelada correctamente",
+        cita,
+      });
+    } catch (err) {
+      res.status(400).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
 };
 
 export default controlador;
