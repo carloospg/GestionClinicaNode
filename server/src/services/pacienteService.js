@@ -27,6 +27,15 @@ class PacienteService {
     });
     return pacientes;
   }
+
+  async eliminarPaciente(id) {
+    const paciente = await Paciente.findByPk(id);
+    if (!paciente) {
+      throw new Error("El paciente no existe");
+    }
+    await paciente.destroy();
+    return paciente;
+  }
 }
 
 export default PacienteService;
