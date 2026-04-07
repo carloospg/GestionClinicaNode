@@ -19,6 +19,25 @@ class CitaService {
     });
     return citas;
   }
+
+  async cancelarCita(id) {
+    const cita = await Cita.findByPk(id);
+
+    if (!cita) {
+      throw new Error("Cita no encontrada");
+    }
+
+    if (cita.estado !== "pendiente") {
+      throw new Error("Solo se pueden cancelar citas pendientes");
+    }
+
+    await cita.update({
+      estado: "cancelada",
+      updated_at: new Date(),
+    });
+
+    return cita;
+  }
 }
 
 export default CitaService;

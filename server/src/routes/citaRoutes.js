@@ -7,3 +7,4 @@ export const router = Router();
 
 router.post('/', verificarToken, verificarRol('admin', 'recepcionista'), controlador.crear);
 router.get('/', verificarToken, controlador.listar);
+router.patch('/:id/cancelar', verificarToken, verificarRol('admin', 'recepcionista'), controlador.cancelar);

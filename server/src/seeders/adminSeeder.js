@@ -89,8 +89,9 @@ const adminSeeder = async () => {
     }
 
     const citas = await Cita.findAll();
+    const todasCanceladas = citas.length > 0 && citas.every(c => c.estado === 'cancelada');
 
-    if (citas.length === 0) {
+    if (citas.length === 0 || todasCanceladas) {
       const medicos = await Usuario.findAll({
         where: {
           rol: "medico",

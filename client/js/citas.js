@@ -14,6 +14,21 @@ if (usuario.rol !== "admin" && usuario.rol !== "recepcionista") {
 
 initNavbar("citas");
 
+const getBadgeColor = (estado) => {
+  switch (estado) {
+    case "pendiente":
+      return "warning";
+    case "en_curso":
+      return "primary";
+    case "finalizada":
+      return "success";
+    case "cancelada":
+      return "danger";
+    default:
+      return "secondary";
+  }
+};
+
 const cargarCitas = async () => {
   try {
     const response = await fetch(`${API_URL}/citas`, {
@@ -40,6 +55,17 @@ const cargarCitas = async () => {
           <td>${new Date(c.fecha_hora).toLocaleString()}</td>
           <td>${c.motivo || "-"}</td>
           <td><span class="badge bg-${getBadgeColor(c.estado)}">${c.estado}</span></td>
+          <td>
+            ${
+              c.estado === "pendiente"
+                ? `
+              <button class="btn btn-danger btn-sm" onclick="cancelarCita(${c.id})">
+                <i class="bi bi-x-circle"></i>
+              </button>
+            `
+                : ""
+            }
+          </td>
         </tr>
       `;
     });
@@ -47,21 +73,6 @@ const cargarCitas = async () => {
     document.getElementById("error-msg").textContent =
       "Error al conectar con el servidor";
     document.getElementById("error-msg").classList.remove("d-none");
-  }
-};
-
-const getBadgeColor = (estado) => {
-  switch (estado) {
-    case "pendiente":
-      return "warning";
-    case "en_curso":
-      return "primary";
-    case "finalizada":
-      return "success";
-    case "cancelada":
-      return "danger";
-    default:
-      return "secondary";
   }
 };
 
@@ -73,6 +84,8 @@ const cargarDesplegables = async () => {
     const dataPacientes = await resPacientes.json();
 
     const selectPaciente = document.getElementById("select-paciente");
+    selectPaciente.innerHTML =
+      '<option value="">Selecciona un paciente</option>';
     dataPacientes.pacientes.forEach((p) => {
       selectPaciente.innerHTML += `<option value="${p.id}">${p.nombre} ${p.apellidos} - ${p.dni}</option>`;
     });
@@ -83,6 +96,7 @@ const cargarDesplegables = async () => {
     const dataMedicos = await resMedicos.json();
 
     const selectMedico = document.getElementById("select-medico");
+    selectMedico.innerHTML = '<option value="">Selecciona un medico</option>';
     dataMedicos.usuarios
       .filter((u) => u.rol === "medico")
       .forEach((m) => {
@@ -92,6 +106,30 @@ const cargarDesplegables = async () => {
     console.error("Error al cargar desplegables:", err);
   }
 };
+
+const cancelarCita = async (id) => {
+  if (!confirm("¿Estas seguro de que quieres cancelar esta cita?")) return;
+
+  try {
+    const response = await fetch(`${API_URL}/citas/${id}/cancelar`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await response.json();
+
+    if (!data.ok) {
+      alert(data.msg);
+      return;
+    }
+
+    cargarCitas();
+  } catch (err) {
+    alert("Error al conectar con el servidor");
+  }
+};
+
+window.cancelarCita = cancelarCita;
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-nueva-cita").addEventListener("click", () => {
