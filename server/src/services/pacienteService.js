@@ -20,6 +20,13 @@ class PacienteService {
 
     return paciente;
   }
+
+  async listarPacientes() {
+    const pacientes = await Paciente.findAll({
+      order: [["id", "ASC"]],
+    });
+    return pacientes;
+  }
 }
 
 export default PacienteService;
