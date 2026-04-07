@@ -25,6 +25,23 @@ const controlador = {
       });
     }
   },
+
+  listar: async (req = request, res = response) => {
+    try {
+      const service = new CitaService();
+      const citas = await service.listarCitas();
+
+      res.status(200).json({
+        ok: true,
+        citas,
+      });
+    } catch (Err) {
+      res.status(500).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
 };
 
 export default controlador;
