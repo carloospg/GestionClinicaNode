@@ -1,6 +1,7 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcryptjs";
 import { faker } from "@faker-js/faker/locale/es";
+import Paciente from "../models/Paciente.js";
 
 const adminSeeder = async () => {
   try {
@@ -63,6 +64,23 @@ const adminSeeder = async () => {
       console.log("5 recepcionistas creados correctamente");
     } else {
       console.log("Ya existen recepcionistas");
+    }
+
+    const pacientes = await Paciente.findAll();
+
+    if (pacientes.length === 0) {
+      for (let i = 0; i < 5; i++) {
+        await Paciente.create({
+          nombre: faker.person.firstName(),
+          apellidos: faker.person.lastName() + ' ' + faker.person.lastName(),
+          dni: faker.string.alphanumeric(9).toUpperCase(),
+          telefono: faker.phone.number(),
+          fecha_nacimiento: faker.date.birthdate({ min: 18, max: 80, mode: 'age' }),
+        });
+      }
+      console.log('5 pacientes creados correctamente')
+    } else {
+      console.log('Ya existen pacientes')
     }
   } catch (err) {
     console.error("Error en el seeder: ", err);
