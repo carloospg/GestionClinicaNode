@@ -43,6 +43,24 @@ const controlador = {
       });
     }
   },
+  eliminar: async (req = request, res = response) => {
+    try {
+      const { id } = req.params;
+      const service = new PacienteService();
+      const paciente = await service.eliminarPaciente(id);
+
+      res.status(200).json({
+        ok: true,
+        msg: "Paciente eliminado correctamente",
+        paciente,
+      });
+    } catch (err) {
+      res.status(400).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
 };
 
 export default controlador;
