@@ -7,6 +7,7 @@ import connectMongo from './config/mongodb.js';
 import './models/associations.js';
 import adminSeeder from './seeders/adminSeeder.js';
 import { router as authRoutes } from './routes/authRoutes.js';
+import { router as pacienteRoutes } from './routes/pacienteRoutes.js';
 
 class Server {
     constructor() {
@@ -40,6 +41,7 @@ class Server {
 
     routes() {
         this.app.use('/api/auth', authRoutes);
+        this.app.use('/api/pacientes', pacienteRoutes);
     }
 
     listen() {

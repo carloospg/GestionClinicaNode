@@ -17,6 +17,14 @@ export function initNavbar(paginaActiva) {
     </li>
   ` : '';
 
+  const linkPacientes = (usuario.rol === 'admin' || usuario.rol === 'recepcionista') ? `
+    <li class="nav-item">
+      <a class="nav-link ${paginaActiva === 'pacientes' ? 'active' : ''}" href="pacientes.html">
+        <i class="bi bi-person-vcard me-1"></i> Pacientes
+      </a>
+    </li>
+  ` : '';
+
   const navbarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container-fluid px-4">
@@ -29,6 +37,7 @@ export function initNavbar(paginaActiva) {
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             ${linkUsuarios}
+            ${linkPacientes}
           </ul>
           <div class="dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
