@@ -1,29 +1,46 @@
 export function initNavbar(paginaActiva) {
-  const token = sessionStorage.getItem('token');
-  const userString = sessionStorage.getItem('usuario');
+  const token = sessionStorage.getItem("token");
+  const userString = sessionStorage.getItem("usuario");
 
   if (!token || !userString) {
-    window.location.href = 'login.html';
+    window.location.href = "login.html";
     return;
   }
 
   const usuario = JSON.parse(userString);
 
-  const linkUsuarios = usuario.rol === 'admin' ? `
+  const linkUsuarios =
+    usuario.rol === "admin"
+      ? `
     <li class="nav-item">
-      <a class="nav-link ${paginaActiva === 'usuarios' ? 'active' : ''}" href="usuarios.html">
+      <a class="nav-link ${paginaActiva === "usuarios" ? "active" : ""}" href="usuarios.html">
         <i class="bi bi-people-fill me-1"></i> Usuarios
       </a>
     </li>
-  ` : '';
+  `
+      : "";
 
-  const linkPacientes = (usuario.rol === 'admin' || usuario.rol === 'recepcionista') ? `
+  const linkPacientes =
+    usuario.rol === "admin" || usuario.rol === "recepcionista"
+      ? `
     <li class="nav-item">
-      <a class="nav-link ${paginaActiva === 'pacientes' ? 'active' : ''}" href="pacientes.html">
+      <a class="nav-link ${paginaActiva === "pacientes" ? "active" : ""}" href="pacientes.html">
         <i class="bi bi-person-vcard me-1"></i> Pacientes
       </a>
     </li>
-  ` : '';
+  `
+      : "";
+
+  const linkCitas =
+    usuario.rol === "admin" || usuario.rol === "recepcionista"
+      ? `
+  <li class="nav-item">
+    <a class="nav-link ${paginaActiva === "citas" ? "active" : ""}" href="citas.html">
+      <i class="bi bi-calendar-check me-1"></i> Citas
+    </a>
+  </li>
+`
+      : "";
 
   const navbarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
@@ -38,6 +55,7 @@ export function initNavbar(paginaActiva) {
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             ${linkUsuarios}
             ${linkPacientes}
+            ${linkCitas}
           </ul>
           <div class="dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -62,12 +80,12 @@ export function initNavbar(paginaActiva) {
     </nav>
   `;
 
-  const contenedor = document.getElementById('navbar-container');
+  const contenedor = document.getElementById("navbar-container");
   if (contenedor) contenedor.innerHTML = navbarHTML;
 
-  document.getElementById('btn-logout-nav')?.addEventListener('click', () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('usuario');
-    window.location.href = 'login.html';
+  document.getElementById("btn-logout-nav")?.addEventListener("click", () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("usuario");
+    window.location.href = "login.html";
   });
 }
