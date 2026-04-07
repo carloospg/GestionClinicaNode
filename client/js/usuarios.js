@@ -14,6 +14,8 @@ if (usuario.rol !== "admin") {
 
 initNavbar("usuarios");
 
+let usuarioEditandoId = null;
+
 const cargarUsuarios = async () => {
   try {
     const response = await fetch(`${API_URL}/auth/usuarios`, {
@@ -39,6 +41,9 @@ const cargarUsuarios = async () => {
           <td>${u.email}</td>
           <td>${u.rol}</td>
           <td>
+            <button class="btn btn-primary btn-sm me-1" onclick="abrirModalEditar(${u.id}, '${u.rol}')">
+              <i class="bi bi-pencil"></i>
+            </button>
             ${
               u.rol !== "admin"
                 ? `
@@ -57,6 +62,13 @@ const cargarUsuarios = async () => {
       "Error al conectar con el servidor";
     document.getElementById("error-msg").classList.remove("d-none");
   }
+};
+
+const abrirModalEditar = (id, rolActual) => {
+  usuarioEditandoId = id;
+  document.getElementById("select-rol").value = rolActual;
+  const modal = new bootstrap.Modal(document.getElementById("modal-editar"));
+  modal.show();
 };
 
 const eliminarUsuario = async (id) => {
@@ -81,6 +93,43 @@ const eliminarUsuario = async (id) => {
   }
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  document
+    .getElementById("btn-guardar-rol")
+    .addEventListener("click", async () => {
+      const rol = document.getElementById("select-rol").value;
+
+      try {
+        const response = await fetch(
+          `${API_URL}/auth/usuarios/${usuarioEditandoId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ rol }),
+          },
+        );
+
+        const data = await response.json();
+
+        if (!data.ok) {
+          alert(data.msg);
+          return;
+        }
+
+        bootstrap.Modal.getInstance(
+          document.getElementById("modal-editar"),
+        ).hide();
+        cargarUsuarios();
+      } catch (err) {
+        alert("Error al conectar con el servidor");
+      }
+    });
+});
+
+window.abrirModalEditar = abrirModalEditar;
 window.eliminarUsuario = eliminarUsuario;
 
 cargarUsuarios();

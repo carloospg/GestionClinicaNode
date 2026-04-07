@@ -46,6 +46,7 @@ class AuthService {
     async listarUsuarios() {
         const usuarios = await Usuario.findAll({
             attributes: ['id', 'nombre', 'email', 'rol'],
+            order: [['id', 'ASC']],
         });
         return usuarios;
     }
@@ -57,6 +58,16 @@ class AuthService {
         }
 
         await usuario.destroy();
+        return usuario;
+    }
+
+    async actualizarRolUsuario(id, rol) {
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario) {
+            throw new Error('Usuario no encontrado')
+        }
+
+        await usuario.update({rol});
         return usuario;
     }
 }
