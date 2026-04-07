@@ -42,6 +42,17 @@ export function initNavbar(paginaActiva) {
 `
       : "";
 
+  const linkMisCitas =
+    usuario.rol === "medico"
+      ? `
+  <li class="nav-item">
+    <a class="nav-link ${paginaActiva === "misCitas" ? "active" : ""}" href="misCitas.html">
+      <i class="bi bi-calendar2-check me-1"></i> Mis Citas
+    </a>
+  </li>
+`
+      : "";
+
   const navbarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container-fluid px-4">
@@ -56,6 +67,7 @@ export function initNavbar(paginaActiva) {
             ${linkUsuarios}
             ${linkPacientes}
             ${linkCitas}
+            ${linkMisCitas}
           </ul>
           <div class="dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
