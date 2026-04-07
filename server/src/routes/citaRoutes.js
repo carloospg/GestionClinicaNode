@@ -1,0 +1,8 @@
+import { Router } from "express";
+import controlador from "../controllers/citaController.js";
+import { verificarToken } from "../middlewares/authMiddleware.js";
+import { verificarRol } from "../middlewares/rolesMiddleware.js";
+
+export const router = Router();
+
+router.post('/', verificarToken, verificarRol('admin', 'recepcionista'), controlador.crear);
