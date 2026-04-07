@@ -40,6 +40,13 @@ const cargarPacientes = async () => {
           <td>${p.dni}</td>
           <td>${p.telefono || '-'}</td>
           <td>${p.fecha_nacimiento || '-'}</td>
+          <td>
+            ${usuario.rol === 'admin' ? `
+              <button class="btn btn-danger btn-sm" onclick="eliminarPaciente(${p.id})">
+                <i class="bi bi-trash"></i>
+              </button>
+            ` : ''}
+          </td>
         </tr>
       `;
     });
@@ -49,6 +56,31 @@ const cargarPacientes = async () => {
     document.getElementById('error-msg').classList.remove('d-none');
   }
 };
+
+const eliminarPaciente = async (id) => {
+  if (!confirm('¿Estas seguro de que quieres eliminar este paciente?')) return;
+
+  try {
+    const response = await fetch(`${API_URL}/pacientes/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` },
+    });
+
+    const data = await response.json();
+
+    if (!data.ok) {
+      alert(data.msg);
+      return;
+    }
+
+    cargarPacientes();
+
+  } catch (err) {
+    alert('Error al conectar con el servidor');
+  }
+};
+
+window.eliminarPaciente = eliminarPaciente;
 
 document.addEventListener('DOMContentLoaded', () => {
 
