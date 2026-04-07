@@ -12,6 +12,13 @@ class CitaService {
 
     return cita;
   }
+
+  async listarCitas() {
+    const citas = await Cita.findAll({
+      order: [["fecha_hora", "ASC"]],
+    });
+    return citas;
+  }
 }
 
 export default CitaService;
