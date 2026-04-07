@@ -59,6 +59,16 @@ class AuthService {
         await usuario.destroy();
         return usuario;
     }
+
+    async actualizarRolUsuario(id, rol) {
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario) {
+            throw new Error('Usuario no encontrado')
+        }
+
+        await usuario.update({rol});
+        return usuario;
+    }
 }
 
 export default AuthService;
