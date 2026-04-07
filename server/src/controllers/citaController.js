@@ -62,6 +62,24 @@ const controlador = {
       });
     }
   },
+
+  misCitas: async (req = request, res = response) => {
+    try {
+      const id_medico = req.usuario.id;
+      const service = new CitaService();
+      const citas = await service.listarCitasMedico(id_medico);
+
+      res.status(200).json({
+        ok: true,
+        citas,
+      });
+    } catch (err) {
+      res.status(500).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
 };
 
 export default controlador;

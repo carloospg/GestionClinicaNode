@@ -38,6 +38,14 @@ class CitaService {
 
     return cita;
   }
+
+  async listarCitasMedico(id_medico) {
+    const citas = await Cita.findAll({
+      where: {id_medico},
+      order: [['fecha_hora', 'ASC']],
+    });
+    return citas;
+  }
 }
 
 export default CitaService;
