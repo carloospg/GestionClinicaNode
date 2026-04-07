@@ -27,6 +27,22 @@ const controlador = {
       });
     }
   },
+  listar: async (req = request, res = response) => {
+    try {
+      const service = new PacienteService();
+      const pacientes = await service.listarPacientes();
+
+      res.status(200).json({
+        ok: true,
+        pacientes,
+      });
+    } catch (err) {
+      res.status(500).json({
+        ok: false,
+        msg: err.message,
+      });
+    }
+  },
 };
 
 export default controlador;
