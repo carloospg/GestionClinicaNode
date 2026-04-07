@@ -112,6 +112,40 @@ const controlador = {
       });
     }
   },
+
+  actualizarRol: async (req = request, res = response) => {
+    try {
+      const {id} = req.params;
+      const {rol} = req.body;
+
+      const rolesValidos = ['admin', 'medico', 'recepcionista'];
+      if (!rolesValidos.includes(rol)) {
+        return res.status(400).json({
+          ok: false,
+          msg: 'Rol no valido'
+        })
+      }
+
+      const service = new AuthService();
+      const usuario = await service.actualizarRolUsuario(id, rol);
+
+      res.status(200).json({
+        ok: true,
+        msg: 'Rol modificado correctamente',
+        usuario: {
+          id: usuario.id,
+          nombre: usuario.nombre,
+          email: usuario.email,
+          rol: usuario.rol,
+        },
+      });
+    } catch (err) {
+      res.status(400).json({
+        ok: false,
+        msg: err.message
+      })
+    }
+  }
 };
 
 export default controlador;
