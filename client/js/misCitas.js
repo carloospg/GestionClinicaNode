@@ -14,7 +14,6 @@ if (usuario.rol !== 'medico') {
 
 initNavbar('mis-citas');
 
-// Color del badge segun el estado
 const getBadgeColor = (estado) => {
   switch (estado) {
     case 'pendiente': return 'warning';
@@ -45,7 +44,7 @@ const cargarMisCitas = async () => {
     if (data.citas.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="5" class="text-center text-muted">No tienes citas asignadas</td>
+          <td colspan="6" class="text-center text-muted">No tienes citas asignadas</td>
         </tr>
       `;
       return;
@@ -59,6 +58,18 @@ const cargarMisCitas = async () => {
           <td>${new Date(c.fecha_hora).toLocaleString()}</td>
           <td>${c.motivo || '-'}</td>
           <td><span class="badge bg-${getBadgeColor(c.estado)}">${c.estado}</span></td>
+          <td>
+            ${c.estado === 'pendiente' ? `
+              <button class="btn btn-primary btn-sm" onclick="cambiarEstado(${c.id}, 'en_curso')">
+                <i class="bi bi-play-circle"></i>
+              </button>
+            ` : ''}
+            ${c.estado === 'en_curso' ? `
+              <button class="btn btn-success btn-sm" onclick="cambiarEstado(${c.id}, 'finalizada')">
+                <i class="bi bi-check-circle"></i>
+              </button>
+            ` : ''}
+          </td>
         </tr>
       `;
     });
@@ -68,5 +79,32 @@ const cargarMisCitas = async () => {
     document.getElementById('error-msg').classList.remove('d-none');
   }
 };
+
+const cambiarEstado = async (id, estado) => {
+  try {
+    const response = await fetch(`${API_URL}/citas/${id}/estado`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ estado }),
+    });
+
+    const data = await response.json();
+
+    if (!data.ok) {
+      alert(data.msg);
+      return;
+    }
+
+    cargarMisCitas();
+
+  } catch (err) {
+    alert('Error al conectar con el servidor');
+  }
+};
+
+window.cambiarEstado = cambiarEstado;
 
 cargarMisCitas();
