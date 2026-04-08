@@ -13,6 +13,10 @@ const EntradaSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        diagnostico: {
+            type: String,
+            required: true,
+        },
         tratamiento: {
             type: String,
             required: true,
