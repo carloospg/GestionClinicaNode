@@ -15,7 +15,7 @@ class CitaService {
 
   async listarCitas() {
     const citas = await Cita.findAll({
-      order: [["fecha_hora", "ASC"]],
+      order: [["id", "ASC"]],
     });
     return citas;
   }
@@ -41,10 +41,33 @@ class CitaService {
 
   async listarCitasMedico(id_medico) {
     const citas = await Cita.findAll({
-      where: {id_medico},
-      order: [['fecha_hora', 'ASC']],
+      where: { id_medico },
+      order: [["id", "ASC"]],
     });
     return citas;
+  }
+
+  async cambiarEstadoCita(id, estado, id_medico) {
+    const cita = await Cita.findByPk(id);
+    if (!cita) {
+      throw new Error("Cita no encontrada");
+    }
+
+    if (cita.id_medico !== id_medico) {
+      throw new Error ('No tienes permiso para modificar esta cita');
+    }
+
+    const estadosValidos = ['en_curso', 'finalizada'];
+    if (!estadosValidos.includes(estado)) {
+      throw new Error ('Estado no valido');
+    }
+
+    await cita.update({
+      estado,
+      updated_at: new Date()
+    });
+
+    return cita;
   }
 }
 
