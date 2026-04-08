@@ -9,3 +9,4 @@ router.post('/', verificarToken, verificarRol('admin', 'recepcionista'), control
 router.get('/', verificarToken, controlador.listar);
 router.patch('/:id/cancelar', verificarToken, verificarRol('admin', 'recepcionista'), controlador.cancelar);
 router.get('/mis-citas', verificarToken, verificarRol('medico'), controlador.misCitas);
+router.patch('/:id/estado', verificarToken, verificarRol('medico'), controlador.cambiarEstado);
