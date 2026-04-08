@@ -1,4 +1,5 @@
 import Cita from "../models/Cita.js";
+import HistorialService from "./historialService.js";
 
 class CitaService {
   async crearCita(id_paciente, id_medico, fecha_hora, motivo) {
@@ -47,7 +48,7 @@ class CitaService {
     return citas;
   }
 
-  async cambiarEstadoCita(id, estado, id_medico) {
+  async cambiarEstadoCita(id, estado, id_medico, observaciones, diagnostico, tratamiento) {
     const cita = await Cita.findByPk(id);
     if (!cita) {
       throw new Error("Cita no encontrada");
@@ -66,6 +67,18 @@ class CitaService {
       estado,
       updated_at: new Date()
     });
+
+    //Esto hace que cuando termina una cita se añade al historial
+    if(estado === 'finalizada') {
+      const historialService = new HistorialService();
+      await historialService.addEntrada(
+        cita.id_paciente,
+        id_medico,
+        observaciones,
+        diagnostico,
+        tratamiento,
+      )
+    }
 
     return cita;
   }

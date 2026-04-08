@@ -83,26 +83,33 @@ const controlador = {
 
   cambiarEstado: async (req = request, res = response) => {
     try {
-      const {id} = req.params;
-      const {estado} = req.body;
+      const { id } = req.params;
+      const { estado, observaciones, diagnostico, tratamiento } = req.body;
 
       const id_medico = req.usuario.id;
 
       const service = new CitaService();
-      const cita = await service.cambiarEstadoCita(id, estado, id_medico);
+      const cita = await service.cambiarEstadoCita(
+        id,
+        estado,
+        id_medico,
+        observaciones,
+        diagnostico,
+        tratamiento,
+      );
 
       res.status(200).json({
-        ok: true, 
-        msg: 'Estado de la cita actualizado correctamente',
+        ok: true,
+        msg: "Estado de la cita actualizado correctamente",
         cita,
       });
     } catch (err) {
       res.status(400).json({
         ok: false,
         msg: err.message,
-      })
+      });
     }
-  }
+  },
 };
 
 export default controlador;
