@@ -53,6 +53,17 @@ export function initNavbar(paginaActiva) {
 `
       : "";
 
+  const linkHistorial =
+    usuario.rol === "medico"
+      ? `
+  <li class="nav-item">
+    <a class="nav-link ${paginaActiva === "historial" ? "active" : ""}" href="historial.html">
+      <i class="bi bi-clipboard2-pulse me-1"></i> Historial
+    </a>
+  </li>
+`
+      : "";
+
   const navbarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container-fluid px-4">
@@ -68,6 +79,7 @@ export function initNavbar(paginaActiva) {
             ${linkPacientes}
             ${linkCitas}
             ${linkMisCitas}
+            ${linkHistorial}
           </ul>
           <div class="dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
