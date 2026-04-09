@@ -17,9 +17,12 @@
         <h4>Gestion de Pacientes</h4>
         <p class="text-muted">Lista de todos los pacientes del sistema</p>
       </div>
-      <div class="col-auto">
+      <div class="col-auto gap-2">
         <button class="btn btn-primary" id="btn-nuevo-paciente">
           <i class="bi bi-person-plus me-1"></i> Nuevo Paciente
+        </button>
+        <button class="btn btn-success" id="btn-generar-pacientes">
+          <i class="bi bi-people me-1"></i> Generar Pacientes
         </button>
       </div>
     </div>
@@ -80,6 +83,30 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-primary" id="btn-guardar-paciente">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal generar pacientes -->
+  <div class="modal fade" id="modal-generar" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Generar Pacientes Aleatorios</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modal-generar-error" class="alert alert-danger d-none"></div>
+          <div id="modal-generar-success" class="alert alert-success d-none"></div>
+          <div class="mb-3">
+            <label class="form-label">Cantidad de pacientes a generar</label>
+            <input type="number" class="form-control" id="input-cantidad" placeholder="Ej: 10" min="1" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" id="btn-confirmar-generar">Generar</button>
         </div>
       </div>
     </div>

@@ -84,11 +84,13 @@ window.eliminarPaciente = eliminarPaciente;
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // Abrimos el modal de nuevo paciente
   document.getElementById('btn-nuevo-paciente').addEventListener('click', () => {
     const modal = new bootstrap.Modal(document.getElementById('modal-paciente'));
     modal.show();
   });
 
+  // Guardamos el paciente
   document.getElementById('btn-guardar-paciente').addEventListener('click', async () => {
     const nombre = document.getElementById('input-nombre').value;
     const apellidos = document.getElementById('input-apellidos').value;
@@ -123,6 +125,51 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('input-dni').value = '';
       document.getElementById('input-telefono').value = '';
       document.getElementById('input-fecha').value = '';
+      cargarPacientes();
+
+    } catch (err) {
+      modalError.textContent = 'Error al conectar con el servidor';
+      modalError.classList.remove('d-none');
+    }
+  });
+
+  document.getElementById('btn-generar-pacientes').addEventListener('click', () => {
+    document.getElementById('input-cantidad').value = '';
+    document.getElementById('modal-generar-error').classList.add('d-none');
+    document.getElementById('modal-generar-success').classList.add('d-none');
+    const modal = new bootstrap.Modal(document.getElementById('modal-generar'));
+    modal.show();
+  });
+
+  document.getElementById('btn-confirmar-generar').addEventListener('click', async () => {
+    const cantidad = document.getElementById('input-cantidad').value;
+    const modalError = document.getElementById('modal-generar-error');
+    const modalSuccess = document.getElementById('modal-generar-success');
+
+    if (!cantidad || cantidad <= 0) {
+      modalError.textContent = 'Introduce una cantidad valida';
+      modalError.classList.remove('d-none');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/pacientes/generar/${cantidad}`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      const data = await response.json();
+
+      if (!data.ok) {
+        modalError.textContent = data.msg;
+        modalError.classList.remove('d-none');
+        modalSuccess.classList.add('d-none');
+        return;
+      }
+
+      modalSuccess.textContent = `${cantidad} pacientes generados correctamente`;
+      modalSuccess.classList.remove('d-none');
+      modalError.classList.add('d-none');
       cargarPacientes();
 
     } catch (err) {
