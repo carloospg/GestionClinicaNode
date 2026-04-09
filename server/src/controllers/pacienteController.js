@@ -61,6 +61,32 @@ const controlador = {
       });
     }
   },
+  generar: async (req = request, res = response) => {
+    try {
+      const cantidad = parseInt(req.params.cantidad);
+
+      if (isNaN(cantidad) || cantidad <= 0) {
+        return res.status(400).json({
+          ok: false,
+          msg: 'La cantidad debe ser un numero positivo',
+        });
+      }
+
+      const service = new PacienteService();
+      const pacientes = await service.generarPacientes(cantidad);
+
+      res.status(201).json({
+        ok: true,
+        msg: `${cantidad} pacientes generados`,
+        pacientes,
+      });
+    } catch (err) {
+      res.status(400).json({
+        ok: false,
+        msg: err.message
+      })
+    }
+  }
 };
 
 export default controlador;
