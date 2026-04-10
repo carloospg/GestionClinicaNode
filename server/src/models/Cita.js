@@ -22,6 +22,10 @@ Cita.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    fecha_inicio: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     estado: {
       type: DataTypes.ENUM('pendiente', 'en_curso', 'finalizada', 'cancelada'),
       allowNull: false,
