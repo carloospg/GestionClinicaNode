@@ -65,7 +65,8 @@ class CitaService {
 
     await cita.update({
       estado,
-      updated_at: new Date()
+      updated_at: new Date(),
+      ...(estado === 'en_curso' && {fecha_inicio: new Date()}), //Si el estado de la cita es en curso lo guardo en fecha de inicio
     });
 
     //Esto hace que cuando termina una cita se añade al historial
