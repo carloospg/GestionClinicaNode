@@ -70,6 +70,17 @@ class AuthService {
         await usuario.update({rol});
         return usuario;
     }
+
+    async listarMedicos() {
+        const medicos = await Usuario.findAll({
+            where: {
+                rol: 'medico'
+            },
+            attributes: ['id', 'nombre', 'email'],
+            order: [['id', 'ASC']],
+        });
+        return medicos;
+    }
 }
 
 export default AuthService;
