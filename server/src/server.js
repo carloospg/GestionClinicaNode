@@ -14,12 +14,21 @@ import { createHandler } from "graphql-http/lib/use/express";
 import { buildSchema } from "graphql";
 import { typeDefs } from "./graphql/typeDefs.js";
 import resolvers from "./resolvers/resolvers.js";
+import { createServer } from "http";
+import { Server as SocketIO } from "socket.io";
+import { socketController } from './sockets/socketController.js';
+import { setIO } from "./sockets/socketInstance.js";
 
 class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT || 3000;
     this.graphQLPath = "/graphql";
+
+    this.httpServer = createServer(this.app);
+    this.io = new SocketIO(this.httpServer, {
+      cors: { origin: "*" },
+    });
 
     this.conectarPostgres();
     this.conectarMongo();
@@ -28,6 +37,8 @@ class Server {
 
     this.routes();
     this.graphql();
+
+    this.sockets();
   }
 
   async conectarPostgres() {
@@ -67,8 +78,13 @@ class Server {
     console.log(`GraphQL disponible en puerto ${this.port}${this.graphQLPath}`);
   }
 
+  sockets() {
+    setIO(this.io);
+    this.io.on('connection', socket => socketController(socket, this.io))
+  }
+
   listen() {
-    this.app.listen(this.port, () => {
+    this.httpServer.listen(this.port, () => {
       console.log(`Servidor escuchando en el puerto ${this.port}`);
     });
   }

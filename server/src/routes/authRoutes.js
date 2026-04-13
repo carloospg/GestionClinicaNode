@@ -10,3 +10,4 @@ router.post('/registro', verificarToken, verificarRol('admin'), controlador.regi
 router.get('/usuarios', verificarToken, verificarRol('admin'), controlador.listar);
 router.delete('/usuarios/:id', verificarToken, verificarRol('admin'), controlador.eliminar);
 router.put('/usuarios/:id', verificarToken, verificarRol('admin'), controlador.actualizarRol);
+router.get('/medicos', verificarToken, controlador.listarMedicos);

@@ -14,7 +14,45 @@ if (usuario.rol !== 'medico') {
 
 initNavbar('mis-citas');
 
-// Variable para guardar el id de la cita que se esta finalizando
+const socket = io('http://localhost:3000');
+socket.emit('unirse-sala', usuario.id);
+
+const mostrarNotificacion = (mensaje, tipo = 'primary') => {
+  const contenedor = document.getElementById('contenedor-notificaciones');
+  const id = `notif-${Date.now()}`;
+
+  contenedor.innerHTML += `
+    <div id="${id}" class="toast align-items-center text-bg-${tipo} border-0 show mb-2" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="bi bi-bell-fill me-2"></i>${mensaje}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="document.getElementById('${id}').remove()"></button>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }, 5000);
+};
+
+socket.on('cita-estado-cambiado', (data) => {
+  const tipo = data.estado === 'finalizada' ? 'success' : 'warning';
+  mostrarNotificacion(data.msg, tipo);
+  cargarMisCitas();
+});
+
+socket.on('cita-asignada', (data) => {
+  mostrarNotificacion(data.msg, 'primary');
+  cargarMisCitas();
+});
+
+socket.on('actualizar-citas', () => {
+  cargarMisCitas();
+});
+
 let citaFinalizandoId = null;
 
 const getBadgeColor = (estado) => {
@@ -110,12 +148,10 @@ const cambiarEstado = async (id, estado) => {
 
 const abrirModalFinalizar = (id) => {
   citaFinalizandoId = id;
-  // Limpiamos el modal
   document.getElementById('input-observaciones').value = '';
   document.getElementById('input-diagnostico').value = '';
   document.getElementById('input-tratamiento').value = '';
   document.getElementById('modal-error').classList.add('d-none');
-  // Abrimos el modal
   const modal = new bootstrap.Modal(document.getElementById('modal-finalizar'));
   modal.show();
 };

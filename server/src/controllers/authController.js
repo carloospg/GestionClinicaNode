@@ -115,15 +115,15 @@ const controlador = {
 
   actualizarRol: async (req = request, res = response) => {
     try {
-      const {id} = req.params;
-      const {rol} = req.body;
+      const { id } = req.params;
+      const { rol } = req.body;
 
-      const rolesValidos = ['admin', 'medico', 'recepcionista'];
+      const rolesValidos = ["admin", "medico", "recepcionista"];
       if (!rolesValidos.includes(rol)) {
         return res.status(400).json({
           ok: false,
-          msg: 'Rol no valido'
-        })
+          msg: "Rol no valido",
+        });
       }
 
       const service = new AuthService();
@@ -131,7 +131,7 @@ const controlador = {
 
       res.status(200).json({
         ok: true,
-        msg: 'Rol modificado correctamente',
+        msg: "Rol modificado correctamente",
         usuario: {
           id: usuario.id,
           nombre: usuario.nombre,
@@ -142,10 +142,24 @@ const controlador = {
     } catch (err) {
       res.status(400).json({
         ok: false,
-        msg: err.message
-      })
+        msg: err.message,
+      });
     }
-  }
+  },
+
+  listarMedicos: async (req = request, res = response) => {
+    try {
+      const service = new AuthService();
+      const medicos = await service.listarMedicos();
+
+      res.status(200).json({
+        ok: true,
+        medicos,
+      });
+    } catch (err) {
+      res.status(500).json({ ok: false, msg: err.message });
+    }
+  },
 };
 
 export default controlador;
