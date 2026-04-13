@@ -14,6 +14,13 @@ if (usuario.rol !== "admin" && usuario.rol !== "recepcionista") {
 
 initNavbar("citas");
 
+const socket = io('http://localhost:3000');
+socket.emit('unirse-sala', usuario.id);
+
+socket.on('actualizar-citas', () => {
+  cargarCitas();
+});
+
 const getBadgeColor = (estado) => {
   switch (estado) {
     case "pendiente":
@@ -78,6 +85,7 @@ const cargarCitas = async () => {
 
 const cargarDesplegables = async () => {
   try {
+    // Cargamos pacientes
     const resPacientes = await fetch(`${API_URL}/pacientes`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -90,18 +98,17 @@ const cargarDesplegables = async () => {
       selectPaciente.innerHTML += `<option value="${p.id}">${p.nombre} ${p.apellidos} - ${p.dni}</option>`;
     });
 
-    const resMedicos = await fetch(`${API_URL}/auth/usuarios`, {
+    // Cargamos medicos
+    const resMedicos = await fetch(`${API_URL}/auth/medicos`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const dataMedicos = await resMedicos.json();
 
     const selectMedico = document.getElementById("select-medico");
     selectMedico.innerHTML = '<option value="">Selecciona un medico</option>';
-    dataMedicos.usuarios
-      .filter((u) => u.rol === "medico")
-      .forEach((m) => {
-        selectMedico.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
-      });
+    dataMedicos.medicos.forEach((m) => {
+      selectMedico.innerHTML += `<option value="${m.id}">${m.nombre}</option>`;
+    });
   } catch (err) {
     console.error("Error al cargar desplegables:", err);
   }
