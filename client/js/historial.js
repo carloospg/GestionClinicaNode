@@ -8,7 +8,7 @@ if (!token || !usuario) {
   window.location.href = 'login.html';
 }
 
-if (usuario.rol !== 'medico') {
+if (usuario.rol !== 'medico' && usuario.rol !== 'admin') {
   window.location.href = 'index.html';
 }
 

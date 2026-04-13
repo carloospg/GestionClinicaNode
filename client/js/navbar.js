@@ -54,7 +54,7 @@ export function initNavbar(paginaActiva) {
       : "";
 
   const linkHistorial =
-    usuario.rol === "medico"
+    usuario.rol === "medico" || usuario.rol === "admin"
       ? `
   <li class="nav-item">
     <a class="nav-link ${paginaActiva === "historial" ? "active" : ""}" href="historial.html">
