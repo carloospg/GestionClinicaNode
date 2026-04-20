@@ -21,6 +21,32 @@ socket.on('actualizar-citas', () => {
   cargarCitas();
 });
 
+socket.on("cita-cancelada", (data) => {
+  mostrarNotificacion(data.msg, "danger");
+  cargarCitas();
+});
+
+const mostrarNotificacion = (mensaje, tipo = "primary") => {
+  const contenedor = document.getElementById("contenedor-notificaciones");
+  const id = `notif-${Date.now()}`;
+
+  contenedor.innerHTML += `
+    <div id="${id}" class="toast align-items-center text-bg-${tipo} border-0 show mb-2" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="bi bi-bell-fill me-2"></i>${mensaje}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="document.getElementById('${id}').remove()"></button>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  }, 5000);
+};
+
 const getBadgeColor = (estado) => {
   switch (estado) {
     case "pendiente":

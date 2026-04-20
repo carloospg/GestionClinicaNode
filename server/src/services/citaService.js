@@ -45,6 +45,11 @@ class CitaService {
       updated_at: new Date(),
     });
 
+    getIO().emit("cita-cancelada", {
+      msg: "Una cita ha sido cancelada",
+      cita,
+    });
+
     getIO().emit("actualizar-citas");
 
     return cita;
