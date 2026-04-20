@@ -182,6 +182,7 @@ El servidor emite los siguientes eventos en tiempo real:
 | Evento | Descripcion | Destinatario |
 |--------|-------------|--------------|
 | `cita-asignada` | Nueva cita asignada al medico | Medico asignado |
+| `cita-cancelada` | Una cita ha sido cancelada | Todos |
 | `cita-estado-cambiado` | La cita ha cambiado de estado | Todos |
 | `actualizar-citas` | Recarga la agenda | Todos |
 
