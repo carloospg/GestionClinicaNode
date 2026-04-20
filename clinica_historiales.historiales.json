@@ -1,0 +1,138 @@
+[{
+  "_id": {
+    "$oid": "69d63d410b13edfc17885318"
+  },
+  "id_paciente": 6,
+  "entradas": [
+    {
+      "fecha": {
+        "$date": "2026-04-08T11:34:25.537Z"
+      },
+      "id_medico": 12,
+      "observaciones": "El paciente presenta fiebre alta",
+      "diagnostico": "Gripe estacional",
+      "tratamiento": "Reposo y paracetamol cada 8 horas"
+    },
+    {
+      "fecha": {
+        "$date": "2026-04-13T14:52:33.416Z"
+      },
+      "id_medico": 12,
+      "observaciones": "saas",
+      "diagnostico": "asasa",
+      "tratamiento": "sas"
+    },
+    {
+      "fecha": {
+        "$date": "2026-04-13T14:57:30.997Z"
+      },
+      "id_medico": 12,
+      "observaciones": "a",
+      "diagnostico": "aa",
+      "tratamiento": "a"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69d669faccefb624c42b241f"
+  },
+  "id_paciente": 4,
+  "entradas": [
+    {
+      "fecha": {
+        "$date": "2026-04-08T14:45:14.330Z"
+      },
+      "id_medico": 12,
+      "observaciones": "El paciente mejora correctamente",
+      "diagnostico": "Gripe estacional",
+      "tratamiento": "Reposo y paracetamol cada 8 horas"
+    },
+    {
+      "fecha": {
+        "$date": "2026-04-13T21:08:51.010Z"
+      },
+      "id_medico": 12,
+      "observaciones": "a",
+      "diagnostico": "aa",
+      "tratamiento": "a"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69d66cceccefb624c42b2423"
+  },
+  "id_paciente": 5,
+  "entradas": [
+    {
+      "fecha": {
+        "$date": "2026-04-08T14:57:18.638Z"
+      },
+      "id_medico": 12,
+      "observaciones": "funciona",
+      "diagnostico": "bien",
+      "tratamiento": "esto"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69d8dd63b7dac41aeff988ec"
+  },
+  "id_paciente": 16,
+  "entradas": [
+    {
+      "fecha": {
+        "$date": "2026-04-10T11:22:11.161Z"
+      },
+      "id_medico": 12,
+      "observaciones": "si",
+      "diagnostico": "si",
+      "tratamiento": "si"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69dcc97a9905a1741188cfc3"
+  },
+  "id_paciente": 12,
+  "entradas": [
+    {
+      "fecha": {
+        "$date": "2026-04-13T10:46:18.560Z"
+      },
+      "id_medico": 12,
+      "observaciones": "si",
+      "diagnostico": "si",
+      "tratamiento": "si"
+    },
+    {
+      "fecha": {
+        "$date": "2026-04-13T11:23:18.828Z"
+      },
+      "id_medico": 12,
+      "observaciones": "vale ",
+      "diagnostico": "vae",
+      "tratamiento": "vale"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "69dd01d31f99ac583ca7cd89"
+  },
+  "id_paciente": 11,
+  "entradas": [
+    {
+      "fecha": {
+        "$date": "2026-04-13T14:46:43.633Z"
+      },
+      "id_medico": 12,
+      "observaciones": "a",
+      "diagnostico": "a",
+      "tratamiento": "a"
+    }
+  ]
+}]

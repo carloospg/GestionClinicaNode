@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinica - Historial Clinico</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+  <div id="navbar-container"></div>
+
+  <div class="container mt-4">
+    <div class="row mb-3">
+      <div class="col">
+        <h4>Historial Clinico</h4>
+        <p class="text-muted">Consulta el historial clinico de un paciente</p>
+      </div>
+    </div>
+
+    <!-- Selector de paciente -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="row align-items-end">
+          <div class="col-md-8">
+            <label class="form-label">Selecciona un paciente</label>
+            <select class="form-select" id="select-paciente">
+              <option value="">Selecciona un paciente</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-primary w-100" id="btn-buscar">
+              <i class="bi bi-search me-1"></i> Consultar Historial
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resultado -->
+    <div id="error-msg" class="alert alert-danger d-none"></div>
+    <div id="sin-historial" class="alert alert-info d-none">Este paciente no tiene historial clinico.</div>
+
+    <div id="contenedor-historial" class="d-none">
+      <h5 class="mb-3">Entradas del historial</h5>
+      <div id="lista-entradas"></div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../js/historial.js"></script>
+</body>
+</html>
